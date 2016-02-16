@@ -46,24 +46,18 @@
 %>
 <p>Hello!
 <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-to include your name with greetings you post.</p>
+to make a blog post.</p>
 <%
     }
 %>
-
- 
 
 <%
 ObjectifyService.register(BlogPost.class);
 List<BlogPost> blogposts = ObjectifyService.ofy().load().type(BlogPost.class).list();   
 Collections.sort(blogposts); 
-
     if (blogposts.isEmpty()) {
-
         %>
-
         <p>Blog '${fn:escapeXml(guestbookName)}' has no posts.</p>
-
         <%
 
     } else {
@@ -87,35 +81,34 @@ Collections.sort(blogposts);
                 <p>An anonymous person wrote:</p>
 
                 <%
-
             } else {
-
                 pageContext.setAttribute("greeting_user",
-
-                                         g.getUser());
-
+                                        g.getUser());
                 %>
-
                 <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
-
                 <%
-
             }
-
             %>
-
             <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
-
             <%
         }
     }
 %>
 
-    <form action="/ofysign" method="post">
-      <div><textarea name="content" rows="3" cols="60"></textarea></div>
-      <div><input type="submit" value="Post Greeting" /></div>
-      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-    </form>
 
+<% 
+if (user != null) {
+
+    %>
+
+    <form action="/sign" method="post">
+	      <div><textarea name="content" rows="3" cols="60"></textarea></div>
+	      <div><input type="submit" value="Post Greeting" /></div>
+	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+	    </form>
+
+    <%
+} %>
+		
   </body>
 </html>
