@@ -51,58 +51,18 @@ to make a blog post.</p>
     }
 %>
 
-<%
-ObjectifyService.register(BlogPost.class);
-List<BlogPost> blogposts = ObjectifyService.ofy().load().type(BlogPost.class).list();   
-Collections.sort(blogposts); 
-    if (blogposts.isEmpty()) {
-        %>
-        <p>Blog '${fn:escapeXml(guestbookName)}' has no posts.</p>
-        <%
-
-    } else {
-
-        %>
-
-        <p>Messages in Blog '${fn:escapeXml(guestbookName)}'.</p>
-
-        <%
-
-        for (BlogPost g : blogposts) {
-
-            pageContext.setAttribute("greeting_content",
-
-                                     g.getContent());
-
-            if (g.getUser() == null) {
-
-                %>
-
-                <p>An anonymous person wrote:</p>
-
-                <%
-            } else {
-                pageContext.setAttribute("greeting_user",
-                                        g.getUser());
-                %>
-                <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
-                <%
-            }
-            %>
-            <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
-            <%
-        }
-    }
-%>
-
-
 <% 
 if (user != null) {
 
-	%>
-	<a href="/post.jsp">Create Post</a>
-	<%
-	
+    %>
+
+    <form action="/sign" method="post">
+	      <div><textarea name="content" rows="3" cols="60"></textarea></div>
+	      <div><input type="submit" value="Create Post" /></div>
+	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+	    </form>
+
+    <%
 } %>
 		
   </body>
