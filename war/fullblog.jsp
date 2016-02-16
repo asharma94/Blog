@@ -30,7 +30,6 @@
     if (guestbookName == null) {
         guestbookName = "default";
     }
-
     pageContext.setAttribute("guestbookName", guestbookName);
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
@@ -52,31 +51,25 @@ to make a blog post.</p>
 %>
 
 <%
-ObjectifyService.register(BlogPost.class);
+//ObjectifyService.register(BlogPost.class);
 List<BlogPost> blogposts = ObjectifyService.ofy().load().type(BlogPost.class).list();   
 Collections.sort(blogposts); 
     if (blogposts.isEmpty()) {
         %>
         <p>Blog '${fn:escapeXml(guestbookName)}' has no posts.</p>
         <%
-
     } else {
-
         %>
 
-        <p>Messages in Blog '${fn:escapeXml(guestbookName)}'. </p>
-		<a href="/fullblog.jsp">Show more posts</a>
-		
+        <p>Messages in Blog '${fn:escapeXml(guestbookName)}'.</p>
+        <a href="/blog.jsp">Show less posts</a>
+
         <%
-
-        for (int x=(blogposts.size()-1);x>=(blogposts.size()-5);x--) {
-			BlogPost g = blogposts.get(x);
+        for (int x = (blogposts.size()-1);x>=0;x--) {
+        	BlogPost g = blogposts.get(x);
             pageContext.setAttribute("greeting_content",
-
                                      g.getContent());
-
             if (g.getUser() == null) {
-
                 %>
 
                 <p>An anonymous person wrote:</p>
@@ -99,7 +92,6 @@ Collections.sort(blogposts);
 
 <% 
 if (user != null) {
-
 	%>
 	<a href="/post.jsp">Create Post</a>
 	<%
