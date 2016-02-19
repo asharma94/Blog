@@ -66,6 +66,15 @@ Collections.sort(blogposts);
         %>
 
         <p>Check out our recent posts... </p>
+        <% 
+			if (user != null) {
+			%>
+				<a class="button" href="/post.jsp">Create Post</a>
+			<%	
+			} 
+		%>
+		<br>
+		<br>
 		<a href="/fullblog.jsp">Show more posts</a>
 		
         <%
@@ -102,16 +111,6 @@ Collections.sort(blogposts);
         }
     }
 %>
-
-
-<% 
-if (user != null) {
-
-	%>
-	<a class="button" href="/post.jsp">Create Post</a>
-	<%
-	
-} %>
 		
   </body>
 </html>
