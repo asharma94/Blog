@@ -31,8 +31,9 @@ public class SignBlogServlet extends HttpServlet {
         // Greetings for a given Guestbook.  However, the write rate to each
         // Guestbook should be limited to ~1/second.
 
+        String title = req.getParameter("title");
         String content = req.getParameter("content");
-        BlogPost g = new BlogPost(user, content);
+        BlogPost g = new BlogPost(user, title, content);
         ofy().save().entity(g).now();
         resp.sendRedirect("/blog.jsp");
 

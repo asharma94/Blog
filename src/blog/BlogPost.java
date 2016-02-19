@@ -12,13 +12,15 @@ import com.googlecode.objectify.annotation.Id;
 public class BlogPost implements Comparable<BlogPost> {
     @Id Long id;
     User user;
+    String title;
     String content;
     Date date;
     
     private BlogPost() {}
 
-    public BlogPost(User user, String content) {
+    public BlogPost(User user, String title, String content) {
         this.user = user;
+        this.title = title;
         this.content = content;
         date = new Date();
     }
@@ -29,6 +31,10 @@ public class BlogPost implements Comparable<BlogPost> {
 
     public String getContent() {
         return content;
+    }
+    
+    public String getTitle() {
+        return title;
     }
 
     @Override

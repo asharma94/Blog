@@ -57,6 +57,7 @@ if (user != null) {
     %>
 
     <form action="/sign" method="post">
+		  <div><textarea name="title" rows="1" cols="30"></textarea></div>
 	      <div><textarea name="content" rows="3" cols="60"></textarea></div>
 	      <div><input type="submit" value="Create Post" /></div>
 	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>

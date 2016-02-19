@@ -1,5 +1,44 @@
 
 body {
    font-family: Verdana, Helvetica, sans-serif;
-   background-color: #FFFFCC;
+   background-color: #390362;
+   background-image: url("tile.jpg");
+   background-repeat: repeat;
+}
+
+h1 {
+	font-family: Impact, Charcoal, sans-serif;
+	color: #FFF813;
+	font-size: 55px;
+}
+
+h3 {
+	font-family: Verdana, Helvetica, sans-serif;
+	color: #FFF813;
+}
+
+p {
+	color: #B4F212;
+}
+
+blockquote {
+	color: #C70F8B;	
+}
+
+a.sign {
+	color: #97D100;
+}
+
+a.button:link, a.button:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;	
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+a.button:hover, a.button:active {
+    background-color: red;
 }

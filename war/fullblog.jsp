@@ -35,18 +35,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
       pageContext.setAttribute("user", user);
-%>
 
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-
-<%
-    } else {
-%>
-<p>Hello!
-<a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-to make a blog post.</p>
-<%
     }
 %>
 
@@ -60,15 +49,15 @@ Collections.sort(blogposts);
         <%
     } else {
         %>
-
-        <p>Messages in Blog '${fn:escapeXml(guestbookName)}'.</p>
-        <a href="/blog.jsp">Show less posts</a>
+        <a href="/blog.jsp">Return to Homepage</a>
 
         <%
         for (int x = (blogposts.size()-1);x>=0;x--) {
         	BlogPost g = blogposts.get(x);
             pageContext.setAttribute("greeting_content",
                                      g.getContent());
+            pageContext.setAttribute("title",
+                    g.getTitle());
             if (g.getUser() == null) {
                 %>
 
@@ -82,6 +71,9 @@ Collections.sort(blogposts);
                 <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
                 <%
             }
+            %>
+            <h3>${fn:escapeXml(title)}</h3>
+            <%
             %>
             <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
             <%

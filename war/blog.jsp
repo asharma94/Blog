@@ -24,13 +24,14 @@
   </head>
 
   <body>
+  
+  <h1>The Ankit and Nish Blog of Life</h1>
 
 <%
     String guestbookName = request.getParameter("guestbookName");
     if (guestbookName == null) {
         guestbookName = "default";
     }
-
     pageContext.setAttribute("guestbookName", guestbookName);
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
@@ -39,13 +40,13 @@
 %>
 
 <p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+<a class="sign" href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
 
 <%
     } else {
 %>
 <p>Hello!
-<a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
+<a class="sign" href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
 to make a blog post.</p>
 <%
     }
@@ -57,14 +58,14 @@ List<BlogPost> blogposts = ObjectifyService.ofy().load().type(BlogPost.class).li
 Collections.sort(blogposts); 
     if (blogposts.isEmpty()) {
         %>
-        <p>Blog '${fn:escapeXml(guestbookName)}' has no posts.</p>
+        <p>We have no posts. :(</p>
         <%
 
     } else {
 
         %>
 
-        <p>Messages in Blog '${fn:escapeXml(guestbookName)}'. </p>
+        <p>Check out our recent posts... </p>
 		<a href="/fullblog.jsp">Show more posts</a>
 		
         <%
@@ -74,6 +75,9 @@ Collections.sort(blogposts);
             pageContext.setAttribute("greeting_content",
 
                                      g.getContent());
+            pageContext.setAttribute("title",
+
+                    g.getTitle());
 
             if (g.getUser() == null) {
 
@@ -90,6 +94,9 @@ Collections.sort(blogposts);
                 <%
             }
             %>
+            <h3>${fn:escapeXml(title)}</h3>
+            <%
+            %>
             <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
             <%
         }
@@ -101,7 +108,7 @@ Collections.sort(blogposts);
 if (user != null) {
 
 	%>
-	<a href="/post.jsp">Create Post</a>
+	<a class="button" href="/post.jsp">Create Post</a>
 	<%
 	
 } %>
