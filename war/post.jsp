@@ -61,7 +61,7 @@ if (user != null) {
 	      <div><textarea name="content" rows="3" cols="60"></textarea></div>
 	      <div><input type="submit" value="Create Post" /></div>
 	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-	    </form>
+	</form>
 
     <%
 } %>

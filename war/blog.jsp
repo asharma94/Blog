@@ -151,6 +151,25 @@ Collections.sort(blogposts);
         
     }
 %>
+
+<% 
+if (user != null) {
+
+    %>
+
+    <form action="/sub" method="post">
+	      <div><input type="submit" value="Subscribe" /></div>
+	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+	</form>
+	
+	<form action="/sub" method="post">
+	      <div><input type="submit" value="Unsubscribe" /></div>
+	      <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+	</form>
+	
+
+    <%
+} %>
 		
   </body>
 </html>

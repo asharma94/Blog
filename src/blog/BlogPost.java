@@ -54,12 +54,11 @@ public class BlogPost implements Comparable<BlogPost> {
     }
     
     public boolean compareDate(Date d) {
-    	GregorianCalendar gc = new GregorianCalendar();
-    	gc.setTime(d);
-    	gc.add(Calendar.DAY_OF_YEAR, -1);
-    	Date result = gc.getTime();
+    	Calendar cal = Calendar.getInstance();
+    	cal.add(Calendar.DATE, -1);
+    	Date result = cal.getTime();
     	
-    	if(date.after(d) && date.before(result)) return true;
+    	if(date.after(result) && date.before(d)) return true;
     	else return false;
     }
     

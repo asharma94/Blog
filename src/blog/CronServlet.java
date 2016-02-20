@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -19,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 
 import java.util.List;
 
+import com.google.appengine.api.users.User;
 import com.googlecode.objectify.ObjectifyService;
 
 import java.util.Collections;
@@ -34,7 +36,6 @@ public class CronServlet extends HttpServlet {
 			throws IOException {
 		
 		// Recipient's email ID needs to be mentioned.
-	      String to = "nrraman929@gmail.com";
 
 	      // Sender's email ID needs to be mentioned
 	      String from = "admin@fast-kiln-122614.appspotmail.com";
@@ -43,10 +44,14 @@ public class CronServlet extends HttpServlet {
 	      List<BlogPost> blogposts = ObjectifyService.ofy().load().type(BlogPost.class).list();   
 	      Collections.sort(blogposts);
 	      
-	      List<BlogPost> sendBlogs = new ArrayList<BlogPost>();
+	      ObjectifyService.register(Subscribed.class);
+	      List<Subscribed> sub = ObjectifyService.ofy().load().type(Subscribed.class).list();   
+
 	      
+	      List<BlogPost> sendBlogs = new ArrayList<BlogPost>();
+	      Date date = new Date();
 	      for(BlogPost b : blogposts){
-	    	  if(b.compareDate(b.date)){
+	    	  if(b.compareDate(date)){
 	    		  sendBlogs.add(b);
 	    	  }
 	      }
@@ -72,10 +77,14 @@ public class CronServlet extends HttpServlet {
 	      // Get the default Session object.
 	      Session session = Session.getDefaultInstance(properties, null);
 	      
-	 //if(!sendBlogs.isEmpty()){ 
+	 if(!sendBlogs.isEmpty()){ 
 		try {
+			for(Subscribed s : sub){
 			_logger.info("Cron Job has been executed");
-
+				
+			
+			User to = s.getUser();
+			
 			  // Create a default MimeMessage object.
 	         MimeMessage message = new MimeMessage(session);
 
@@ -83,22 +92,23 @@ public class CronServlet extends HttpServlet {
 	         message.setFrom(new InternetAddress(from));
 
 	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to.toString()));
 
 	         // Set Subject: header field
-	         message.setSubject("This is the Subject Line!");
+	         message.setSubject("Daily Blog Overview");
 
 	         // Now set the actual message
-	         message.setText("yo");
+	         message.setText(text);
 
 	         // Send message
 	         Transport.send(message);
+			}
 		}
 		catch (MessagingException mex) {
 			//Log any exceptions in your Cron Job
 			_logger.info("Error occured: " + mex);
 		}
-	 //}
+	 }
 }
 
 @Override
