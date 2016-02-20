@@ -4,5 +4,6 @@
 <url>/cron/mycronjob</url>
 <description>Test</description>
 <schedule>every 2 minutes</schedule>
+<timezone>US/Central</timezone>
 </cron>
 </cronentries>

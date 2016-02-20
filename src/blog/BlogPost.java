@@ -1,8 +1,12 @@
 
 package blog;
+import java.util.Calendar;
 import java.util.Date;
 
  
+
+import java.util.GregorianCalendar;
+
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -48,5 +52,16 @@ public class BlogPost implements Comparable<BlogPost> {
         }
         return 0;
     }
+    
+    public boolean compareDate(Date d) {
+    	GregorianCalendar gc = new GregorianCalendar();
+    	gc.setTime(d);
+    	gc.add(Calendar.DAY_OF_YEAR, -1);
+    	Date result = gc.getTime();
+    	
+    	if(date.after(d) && date.before(result)) return true;
+    	else return false;
+    }
+    
 
 }

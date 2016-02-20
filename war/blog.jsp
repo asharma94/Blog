@@ -59,6 +59,13 @@ Collections.sort(blogposts);
     if (blogposts.isEmpty()) {
         %>
         <p>We have no posts. :(</p>
+         <% 
+			if (user != null) {
+			%>
+				<a class="button" href="/post.jsp">Create Post</a>
+			<%	
+			} 
+		%>
         <%
 
     } else {
@@ -79,36 +86,69 @@ Collections.sort(blogposts);
 		
         <%
 
-        for (int x=(blogposts.size()-1);x>=(blogposts.size()-5);x--) {
-			BlogPost g = blogposts.get(x);
-            pageContext.setAttribute("greeting_content",
-
-                                     g.getContent());
-            pageContext.setAttribute("title",
-
-                    g.getTitle());
-
-            if (g.getUser() == null) {
-
+         if(!(blogposts.size() <= 5)) {
+            for (int x=(blogposts.size()-1);x>=(blogposts.size()-5);x--) {
+                BlogPost g = blogposts.get(x);
+                pageContext.setAttribute("greeting_content",
+    
+                                         g.getContent());
+                pageContext.setAttribute("title",
+    
+                        g.getTitle());
+    
+                if (g.getUser() == null) {
+    
+                    %>
+    
+                    <p>An anonymous person wrote:</p>
+    
+                    <%
+                } else {
+                    pageContext.setAttribute("greeting_user",
+                                            g.getUser());
+                    %>
+                    <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
+                    <%
+                }
                 %>
-
-                <p>An anonymous person wrote:</p>
-
+                <h3>${fn:escapeXml(title)}</h3>
                 <%
-            } else {
-                pageContext.setAttribute("greeting_user",
-                                        g.getUser());
                 %>
-                <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
+                <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
                 <%
             }
-            %>
-            <h3>${fn:escapeXml(title)}</h3>
-            <%
-            %>
-            <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
-            <%
+        } else {
+            for (BlogPost g : blogposts) {
+                pageContext.setAttribute("greeting_content",
+    
+                                         g.getContent());
+                pageContext.setAttribute("title",
+    
+                        g.getTitle());
+    
+                if (g.getUser() == null) {
+    
+                    %>
+    
+                    <p>An anonymous person wrote:</p>
+    
+                    <%
+                } else {
+                    pageContext.setAttribute("greeting_user",
+                                            g.getUser());
+                    %>
+                    <p><b>${fn:escapeXml(greeting_user.nickname)}</b> wrote:</p>
+                    <%
+                }
+                %>
+                <h3>${fn:escapeXml(title)}</h3>
+                <%
+                %>
+                <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+                <%
+            }
         }
+        
     }
 %>
 		
